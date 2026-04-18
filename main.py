@@ -3,6 +3,7 @@ from telegram.ext import ApplicationBuilder, MessageHandler, CommandHandler, fil
 from telegram import MessageEntity
 from dotenv import load_dotenv
 import asyncio
+from workflow import start_worfklow
 
 load_dotenv()
 
@@ -34,8 +35,8 @@ async def parse_and_summarize(urls):
     return f"This is the summary after parsing the urls {urls}"
 
 async def summarize(text):
-    await asyncio.sleep(1)
-    return "This is the summary of the text"
+    summary = start_worfklow(text)
+    return summary
 
 def main():
     print("Starting the bot...")
