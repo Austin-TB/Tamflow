@@ -15,7 +15,7 @@ async def handler(update, context):
         await update.message.reply_text("Unauthorized user")
         return
     
-    text = update.message.text
+    input_msg = update.message.text
 
     #check if user messages contain URL or article content
     urls = update.message.parse_entities(types=[MessageEntity.URL])
@@ -27,18 +27,22 @@ async def handler(update, context):
         
         response = await parse_and_summarize(list(urls.values()))
     else:
-        response = await summarize(text)
+        response = await summarize(input_msg)
 
     await msg.edit_text(response)
 
-async def parse_and_summarize(urls):
-    text = await fetch_article_markdown(urls[0])
-    summary = start_worfklow(text)
+async def parse_and_summarize(urls) -> str:
+    text = trim(await fetch_article_markdown(urls[0]))
+    summary = start_worfklow(text[:6000])
     return summary
 
-async def summarize(text):
-    summary = start_worfklow(text)
+async def summarize(text) -> str:
+    summary = start_worfklow(trim(text))
+
     return summary
+
+def trim(text: str, max_chars: int = 24000) -> str:
+    return text[:max_chars]
 
 def main():
     print("Starting the bot...")

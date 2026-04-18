@@ -27,5 +27,5 @@ if __name__ == "__main__":
     url="""
     https://cameronrwolfe.substack.com/p/understanding-and-using-supervised
     """
-
-    print(asyncio.run(fetch_article_markdown(url)))
+    with open("artcle.md", "w", encoding="utf-8") as f:
+        f.write(asyncio.run(fetch_article_markdown(url)))
