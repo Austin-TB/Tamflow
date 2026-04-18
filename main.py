@@ -9,7 +9,7 @@ load_dotenv()
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 allowed_users = set(os.getenv("WHITELIST","").split(","))
 async def handler(update, context):
-    if update.message.from_user.id in allowed_users:
+    if str(update.message.from_user.id) not in allowed_users:
         await update.message.reply_text("Unauthorized user")
         return
     
