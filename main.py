@@ -4,6 +4,7 @@ from telegram import MessageEntity
 from dotenv import load_dotenv
 import asyncio
 from workflow import start_worfklow
+from crawler import fetch_article_markdown
 
 load_dotenv()
 
@@ -31,8 +32,9 @@ async def handler(update, context):
     await msg.edit_text(response)
 
 async def parse_and_summarize(urls):
-    await asyncio.sleep(3)
-    return f"This is the summary after parsing the urls {urls}"
+    text = await fetch_article_markdown(urls[0])
+    summary = start_worfklow(text)
+    return summary
 
 async def summarize(text):
     summary = start_worfklow(text)
